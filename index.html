@@ -1,1 +1,1767 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammed Shimi — Ingénieur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
 
+/* ══ TOKENS ══ */
+:root {
+  --noir:      #0a0a0a;
+  --noir-2:    #141414;
+  --noir-3:    #1e1e1e;
+  --gris-1:    #2a2a2a;
+  --gris-2:    #888;
+  --gris-3:    #bbb;
+  --blanc:     #f5f2ec;
+  --creme:     #ede9e0;
+  --or:        #c8a96e;
+  --or-light:  #e2c98e;
+  --or-dark:   #8c6d3f;
+  --rouge:     #c0392b;
+  --bleu:      #1a3a6b;
+  --bleu-vif:  #2563eb;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  cursor: none;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--noir);
+  color: var(--blanc);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══ CUSTOM CURSOR ══ */
+.cursor {
+  position: fixed;
+  width: 8px; height: 8px;
+  background: var(--or);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width .2s, height .2s, background .2s;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(200,169,110,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform .12s var(--ease-expo), width .3s, height .3s, border-color .3s;
+}
+body:hover .cursor { opacity: 1; }
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--noir); }
+::-webkit-scrollbar-thumb { background: var(--or-dark); }
+
+/* ══ NOISE OVERLAY ══ */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.022;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ══ NAV ══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  padding: 0 60px;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--blanc);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  display: flex; align-items: center; gap: 12px;
+}
+
+.nav-flag {
+  display: flex; height: 11px; width: 17px;
+  border-radius: 1px; overflow: hidden; flex-shrink: 0;
+  opacity: 0.7;
+}
+.nav-flag span { flex: 1; }
+.f-b { background: #002395; }
+.f-w { background: #eee; }
+.f-r { background: #ED2939; }
+
+.nav-links {
+  display: flex; gap: 2.8rem; list-style: none;
+}
+.nav-links a {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gris-2);
+  text-decoration: none;
+  transition: color 0.2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px;
+  background: var(--or);
+  transform: scaleX(0);
+  transition: transform 0.3s var(--ease-expo);
+  transform-origin: right;
+}
+.nav-links a:hover { color: var(--blanc); }
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.nav-cta {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--noir);
+  background: var(--or);
+  padding: 0.5rem 1.4rem;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-cta:hover { background: var(--or-light); transform: translateY(-1px); }
+
+/* ══ HERO ══ */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 68px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Vertical line divider */
+.hero-divider {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(200,169,110,0.25) 20%, rgba(200,169,110,0.25) 80%, transparent 100%);
+  pointer-events: none;
+}
+
+.hero-left {
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 80px 70px 80px 80px;
+  position: relative;
+}
+
+/* Big background number */
+.hero-bg-year {
+  position: absolute;
+  top: 68px;
+  left: -20px;
+  font-family: var(--font-display);
+  font-size: clamp(120px, 18vw, 200px);
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(200,169,110,0.08);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.04em;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-expo) 0.2s both;
+}
+.eyebrow-line {
+  width: 32px; height: 1px;
+  background: var(--or);
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 5.5vw, 6rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--blanc);
+  margin-bottom: 0.4rem;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-expo) 0.35s both;
+}
+
+.hero-name em {
+  font-style: italic;
+  color: var(--or);
+}
+
+.hero-title-line {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gris-2);
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-expo) 0.45s both;
+}
+
+.hero-desc {
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--gris-3);
+  max-width: 380px;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-expo) 0.55s both;
+}
+
+.hero-btns {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease-expo) 0.65s both;
+}
+
+.btn-primary {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--noir);
+  background: var(--or);
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: var(--or-light); transform: translateY(-2px); }
+
+.btn-secondary {
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gris-3);
+  background: transparent;
+  padding: 0.85rem 2rem;
+  border-radius: 2px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-secondary:hover { border-color: rgba(200,169,110,0.4); color: var(--or); }
+
+/* Hero right — photo + stats */
+.hero-right {
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 80px 80px 80px 70px;
+  position: relative;
+  gap: 3rem;
+}
+
+.hero-photo-frame {
+  position: relative;
+  width: clamp(220px, 22vw, 320px);
+  opacity: 0;
+  animation: fadeUp 1.2s var(--ease-expo) 0.4s both;
+}
+
+.hero-photo-frame::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.hero-photo-frame::after {
+  content: '';
+  position: absolute;
+  top: 12px; left: 12px;
+  right: -12px; bottom: -12px;
+  background: linear-gradient(135deg, rgba(200,169,110,0.15), transparent);
+  border-radius: 4px;
+  z-index: -1;
+}
+
+.hero-photo-frame img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 3px;
+  filter: grayscale(15%) contrast(1.05);
+}
+
+.hero-photo-placeholder {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: linear-gradient(135deg, var(--gris-1) 0%, var(--noir-3) 100%);
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 900;
+  color: var(--or-dark);
+  letter-spacing: -0.04em;
+}
+
+/* Stats bar below photo */
+.hero-stats {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  max-width: clamp(220px, 22vw, 320px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 3px;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 1.2s var(--ease-expo) 0.6s both;
+}
+
+.stat-item {
+  flex: 1;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  background: var(--noir-2);
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--or);
+  line-height: 1;
+  display: block;
+}
+.stat-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gris-2);
+  margin-top: 4px;
+  display: block;
+}
+
+/* Badges */
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  max-width: clamp(220px, 22vw, 320px);
+  opacity: 0;
+  animation: fadeUp 1.2s var(--ease-expo) 0.7s both;
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.8rem;
+  border-radius: 1px;
+  border: 1px solid rgba(200,169,110,0.25);
+  color: var(--or);
+  background: rgba(200,169,110,0.05);
+}
+.badge.dim {
+  border-color: rgba(255,255,255,0.08);
+  color: var(--gris-2);
+  background: transparent;
+}
+
+/* Scroll hint */
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 80px;
+  display: flex; align-items: center; gap: 12px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.2s both;
+}
+.hero-scroll span {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gris-2);
+}
+.scroll-line {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, var(--or-dark), transparent);
+}
+
+/* ══ SECTION BASE ══ */
+section { position: relative; }
+
+.sec-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* ══ ABOUT ══ */
+#about {
+  padding: 9rem 0;
+  background: var(--noir-2);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 8rem;
+  align-items: start;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--or);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before {
+  content: '';
+  width: 20px; height: 1px;
+  background: var(--or);
+}
+
+.section-h {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--blanc);
+  margin-bottom: 1.5rem;
+}
+
+.section-h em {
+  font-style: italic;
+  color: var(--or);
+}
+
+.about-body p {
+  font-size: 0.92rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--gris-3);
+  margin-bottom: 1.2rem;
+}
+
+.about-body strong {
+  color: var(--blanc);
+  font-weight: 500;
+}
+
+/* Qualities grid */
+.qualities {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 2.5rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.q-item {
+  background: var(--noir-2);
+  padding: 1rem 1.2rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--gris-3);
+  letter-spacing: 0.01em;
+  transition: background 0.2s, color 0.2s;
+  display: flex; align-items: center; gap: 10px;
+}
+.q-item:hover { background: var(--noir-3); color: var(--blanc); }
+.q-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--or);
+  flex-shrink: 0;
+}
+
+/* Language bars */
+.lang-section {}
+.lang-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--blanc);
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.lang-row { margin-bottom: 1.5rem; }
+.lang-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.lang-name {
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--blanc);
+  letter-spacing: 0.02em;
+}
+.lang-lvl {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--or);
+}
+.bar-bg {
+  height: 2px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--or-dark), var(--or));
+  border-radius: 1px;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 1.2s var(--ease-expo);
+}
+.bar.animated { transform: scaleX(1); }
+
+/* Divider line in about-right */
+.about-sep {
+  width: 100%;
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin: 2.5rem 0;
+}
+
+/* Stat row */
+.stat-row {
+  display: flex; gap: 3rem;
+}
+.stat-block {}
+.stat-big {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--or);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.stat-caption {
+  font-size: 0.72rem;
+  color: var(--gris-2);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+/* ══ SKILLS ══ */
+#skills {
+  padding: 9rem 0;
+  background: var(--noir);
+}
+
+.skills-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 4rem;
+}
+
+.skills-intro {
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--gris-2);
+  max-width: 420px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.skill-card {
+  background: var(--noir-2);
+  padding: 2.5rem;
+  transition: background 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.skill-card:hover { background: var(--noir-3); }
+
+.skill-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--or), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease-expo);
+}
+.skill-card:hover::before { transform: scaleX(1); }
+
+.skill-cat {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--or-dark);
+  margin-bottom: 0.8rem;
+}
+.skill-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--blanc);
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.tag-list {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1px;
+  color: var(--gris-3);
+  background: rgba(255,255,255,0.03);
+  transition: border-color 0.2s, color 0.2s;
+}
+.tag:hover { border-color: rgba(200,169,110,0.3); color: var(--or); }
+.tag.gold { border-color: rgba(200,169,110,0.2); color: var(--or-dark); background: rgba(200,169,110,0.04); }
+
+/* ══ EXPERIENCE ══ */
+#experience {
+  padding: 9rem 0;
+  background: var(--noir-2);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.exp-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 5rem;
+}
+
+.timeline { display: flex; flex-direction: column; }
+
+.tl-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 5rem;
+  padding: 3rem 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+}
+.tl-item:last-child {
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Left gold accent */
+.tl-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -1px;
+  width: 2px; height: 0;
+  background: var(--or);
+  transition: height 0.6s var(--ease-expo);
+}
+.tl-item.visible::before { height: 100%; }
+
+.tl-period {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--or);
+  line-height: 1.5;
+  padding-top: 4px;
+}
+
+.tl-badge {
+  display: inline-block;
+  margin-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 1px;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--gris-2);
+}
+.tl-badge.alt { border-color: rgba(200,169,110,0.25); color: var(--or-dark); background: rgba(200,169,110,0.04); }
+.tl-badge.stage { border-color: rgba(100,140,200,0.25); color: #6ea0d0; background: rgba(100,140,200,0.04); }
+.tl-badge.vol { border-color: rgba(80,180,100,0.25); color: #7cc994; background: rgba(80,180,100,0.04); }
+
+.tl-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--blanc);
+  margin-bottom: 0.3rem;
+}
+.tl-company {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--or-dark);
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.03em;
+}
+.tl-list {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+.tl-list li {
+  font-size: 0.84rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--gris-3);
+  display: flex; gap: 0.8rem;
+}
+.tl-list li::before {
+  content: '↳';
+  color: var(--or-dark);
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+.tl-tags {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.tl-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 1px;
+  color: var(--gris-2);
+}
+
+/* ══ FORMATION ══ */
+#formation {
+  padding: 9rem 0;
+  background: var(--noir);
+}
+
+.form-header {
+  margin-bottom: 4rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.form-card {
+  background: var(--noir-2);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s;
+}
+.form-card:hover { background: var(--noir-3); }
+
+.form-card.main::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--or), var(--rouge));
+}
+.form-card.prepa::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--bleu-vif);
+}
+.form-card.bac::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gris-2);
+}
+
+.form-year {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--or);
+  margin-bottom: 1rem;
+}
+.form-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--blanc);
+  margin-bottom: 0.3rem;
+  letter-spacing: -0.02em;
+}
+.form-school {
+  font-size: 0.78rem;
+  color: var(--or-dark);
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+.form-card p {
+  font-size: 0.82rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--gris-3);
+}
+.form-pill {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.7rem;
+  border-radius: 1px;
+  border: 1px solid rgba(200,169,110,0.2);
+  color: var(--or-dark);
+  background: rgba(200,169,110,0.04);
+}
+
+/* ══ PROJET ══ */
+#projet {
+  padding: 9rem 0;
+  background: var(--noir-2);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.projet-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: end;
+  margin-bottom: 5rem;
+}
+
+.projet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.obj-card {
+  background: var(--noir-2);
+  padding: 2.8rem;
+  transition: background 0.25s;
+}
+.obj-card:hover { background: var(--noir-3); }
+
+.obj-num {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(200,169,110,0.2);
+  line-height: 1;
+  margin-bottom: 1rem;
+  letter-spacing: -0.04em;
+}
+.obj-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--blanc);
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.02em;
+}
+.obj-card p {
+  font-size: 0.84rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--gris-2);
+}
+
+/* ══ CONTACT ══ */
+#contact {
+  padding: 9rem 0;
+  background: var(--noir);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: start;
+}
+
+.contact-intro {
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--gris-2);
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.contact-links {
+  display: flex; flex-direction: column; gap: 0;
+}
+
+.c-link {
+  display: flex; align-items: center; gap: 1.2rem;
+  padding: 1.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  text-decoration: none;
+  color: var(--blanc);
+  transition: padding-left 0.3s var(--ease-expo);
+  position: relative;
+}
+.c-link:first-child { border-top: 1px solid rgba(255,255,255,0.05); }
+.c-link:hover { padding-left: 8px; }
+.c-link:hover .c-arrow { opacity: 1; transform: translateX(0); }
+
+.c-icon-wrap {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  background: rgba(200,169,110,0.04);
+}
+.c-icon {
+  width: 14px; height: 14px;
+  color: var(--or);
+}
+.c-text {}
+.c-label-sm {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gris-2);
+  display: block;
+  margin-bottom: 2px;
+}
+.c-value-text {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--blanc);
+}
+.c-arrow {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--or);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.2s, transform 0.3s var(--ease-expo);
+}
+
+/* Right side big text */
+.contact-right {}
+.contact-big {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(200,169,110,0.25);
+  margin-bottom: 3rem;
+}
+.contact-note {
+  font-size: 0.82rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--gris-2);
+  padding: 1.8rem;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 3px;
+  background: var(--noir-2);
+  margin-bottom: 2rem;
+}
+.contact-note strong { color: var(--blanc); font-weight: 500; }
+
+.contact-dispo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #7cc994;
+}
+.dispo-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #7cc994;
+  box-shadow: 0 0 8px rgba(124,201,148,0.5);
+  animation: pulse-green 2s infinite;
+}
+@keyframes pulse-green {
+  0%,100% { opacity:1; box-shadow: 0 0 8px rgba(124,201,148,0.5); }
+  50%      { opacity:0.5; box-shadow: 0 0 4px rgba(124,201,148,0.2); }
+}
+
+/* ══ FOOTER ══ */
+footer {
+  padding: 2.5rem 80px;
+  background: var(--noir-2);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 1rem;
+}
+
+.footer-left {
+  display: flex; align-items: center; gap: 10px;
+}
+.footer-name {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--gris-2);
+}
+footer p {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--gris-1);
+}
+
+/* ══ ANIMATIONS ══ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease-expo), transform 0.8s var(--ease-expo);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.stagger > * {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-expo), transform 0.6s var(--ease-expo);
+}
+.stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:.05s; }
+.stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:.15s; }
+.stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:.25s; }
+.stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:.35s; }
+.stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:.45s; }
+.stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:.55s; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 1024px) {
+  #hero { grid-template-columns: 1fr; }
+  .hero-divider { display: none; }
+  .hero-right { display: none; }
+  .hero-left { padding: 80px 60px; justify-content: center; min-height: 100vh; }
+  .about-grid { grid-template-columns: 1fr; gap: 4rem; }
+  .skills-header { grid-template-columns: 1fr; }
+  .exp-header { grid-template-columns: 1fr; }
+  .projet-header { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 4rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .projet-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  nav { padding: 0 40px; }
+  .sec-inner { padding: 0 40px; }
+  footer { padding: 2.5rem 40px; }
+  .hero-scroll { left: 60px; }
+}
+
+@media (max-width: 600px) {
+  .hero-left { padding: 80px 30px; }
+  .sec-inner { padding: 0 24px; }
+  nav { padding: 0 24px; }
+  footer { padding: 2rem 24px; }
+  .tl-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  .contact-big { font-size: 2.5rem; }
+  .stat-row { gap: 2rem; }
+  section { padding: 6rem 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <div class="nav-flag">
+      <span class="f-b"></span>
+      <span class="f-w"></span>
+      <span class="f-r"></span>
+    </div>
+    Mohammed Shimi
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#experience">Expériences</a></li>
+    <li><a href="#formation">Formation</a></li>
+    <li><a href="#projet">Projet</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Me contacter</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-divider"></div>
+
+  <div class="hero-left">
+    <div class="hero-bg-year">2026</div>
+
+    <p class="hero-eyebrow">
+      <span class="eyebrow-line"></span>
+      Diplômé en Juillet 2026
+    </p>
+
+    <h1 class="hero-name">
+      Mohammed<br><em>Shimi</em>
+    </h1>
+
+    <p class="hero-title-line">Ingénieur Électronique &amp; Informatique Industrielle</p>
+
+    <p class="hero-desc">
+      Actuellement en alternance à la DGA sur des programmes d'essais de missiles. Je m'intéresse autant à la rigueur des systèmes embarqués critiques qu'à la dimension stratégique et commerciale des projets d'ingénierie.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#experience" class="btn-primary">Mon parcours &rarr;</a>
+      <a href="#contact" class="btn-secondary">Me contacter</a>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Défiler</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-photo-frame">
+      <img
+        src="photo shimi Mohammed.jpg"
+        alt="Mohammed Shimi"
+        onerror="this.outerHTML='<div class=\'hero-photo-placeholder\'>MS</div>'"
+      >
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">5+</span>
+        <span class="stat-label">Expériences</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">4</span>
+        <span class="stat-label">Langues</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">Bac+5</span>
+        <span class="stat-label">Diplôme visé</span>
+      </div>
+    </div>
+
+    <div class="hero-badges">
+      <span class="badge">DGA · Essais Missiles</span>
+      <span class="badge">ISEN Yncréa Marseille</span>
+      <span class="badge dim">Mobilité internationale</span>
+      <span class="badge dim">Option Ingénieur d'Affaires</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-inner">
+    <div class="about-grid">
+
+      <div class="reveal">
+        <p class="section-label">Profil</p>
+        <h2 class="section-h">Technique,<br><em>stratégie,</em><br>terrain.</h2>
+        <div class="about-body" style="margin-top: 2rem;">
+          <p>
+            Mon parcours n'a pas été linéaire, et c'est ce qui me plaît. Du lycée technologique de Nîmes aux bancs de prépa TSI, puis à l'école d'ingénieurs à Marseille — chaque étape m'a appris à me dépasser dans des environnements exigeants.
+          </p>
+          <p>
+            Depuis deux ans, j'alterne entre les salles d'essais de la <strong>Direction Générale de l'Armement</strong> et les amphithéâtres de l'<strong>ISEN Yncréa Méditerranée</strong>. Travailler sur des systèmes de missiles, c'est concret : chaque paramètre que j'analyse en vol a une signification réelle pour la performance et la sécurité d'un programme de défense national.
+          </p>
+          <p>
+            En 5e année, j'ai choisi l'option <strong>Ingénieur d'Affaires</strong> parce que je voulais comprendre ce que devient un projet quand il sort du laboratoire — comment on le vend, comment on le finance, comment on le défend devant un client. Cette double culture technique et commerciale, je la vois comme une vraie force, pas comme un compromis.
+          </p>
+          <p>
+            En dehors du travail, je m'investis depuis plusieurs années à la <strong>Croix-Rouge</strong>. Ce n'est pas anodin : ça m'a appris des choses sur l'organisation, sur l'humain, sur le fait d'être utile là où ça compte.
+          </p>
+        </div>
+        <div class="qualities stagger" style="margin-top: 2rem;">
+          <div class="q-item"><span class="q-dot"></span> Leadership d'équipe</div>
+          <div class="q-item"><span class="q-dot"></span> Gestion de projet</div>
+          <div class="q-item"><span class="q-dot"></span> Rédaction technique</div>
+          <div class="q-item"><span class="q-dot"></span> Créativité analytique</div>
+          <div class="q-item"><span class="q-dot"></span> Sens des responsabilités</div>
+          <div class="q-item"><span class="q-dot"></span> Rigueur sous pression</div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay: .15s;">
+        <p class="section-label">Langues</p>
+        <p class="lang-title">Communiquer sans frontières</p>
+
+        <div class="lang-block">
+          <div class="lang-row">
+            <div class="lang-meta"><span class="lang-name">Français</span><span class="lang-lvl">Natif</span></div>
+            <div class="bar-bg"><div class="bar" data-width="100%"></div></div>
+          </div>
+          <div class="lang-row">
+            <div class="lang-meta"><span class="lang-name">Anglais</span><span class="lang-lvl">Courant — C1</span></div>
+            <div class="bar-bg"><div class="bar" data-width="82%"></div></div>
+          </div>
+          <div class="lang-row">
+            <div class="lang-meta"><span class="lang-name">Arabe</span><span class="lang-lvl">Courant</span></div>
+            <div class="bar-bg"><div class="bar" data-width="80%"></div></div>
+          </div>
+          <div class="lang-row">
+            <div class="lang-meta"><span class="lang-name">Espagnol</span><span class="lang-lvl">Intermédiaire — B1</span></div>
+            <div class="bar-bg"><div class="bar" data-width="50%"></div></div>
+          </div>
+        </div>
+
+        <div class="about-sep"></div>
+
+        <div class="stat-row">
+          <div class="stat-block">
+            <div class="stat-big">5+</div>
+            <div class="stat-caption">Expériences professionnelles</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-big">3</div>
+            <div class="stat-caption">Années chez la DGA</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-big">2026</div>
+            <div class="stat-caption">Diplôme d'ingénieur</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-inner">
+    <div class="skills-header reveal">
+      <div>
+        <p class="section-label">Compétences</p>
+        <h2 class="section-h">Mes outils<br><em>&amp; expertises</em></h2>
+      </div>
+      <p class="skills-intro">
+        Un bagage forgé en prépa, en école d'ingénieurs et directement sur le terrain — de la programmation embarquée à la gestion de projet en contexte militaire, en passant par le développement commercial.
+      </p>
+    </div>
+
+    <div class="skills-grid stagger">
+      <div class="skill-card">
+        <p class="skill-cat">01 — Programmation</p>
+        <h3>Code &amp; Logiciel</h3>
+        <div class="tag-list">
+          <span class="tag gold">Python</span>
+          <span class="tag gold">C</span>
+          <span class="tag gold">C++</span>
+          <span class="tag gold">VHDL</span>
+          <span class="tag gold">MATLAB</span>
+          <span class="tag">Arduino</span>
+          <span class="tag">GitHub</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-cat">02 — Systèmes embarqués</p>
+        <h3>Électronique &amp; Défense</h3>
+        <div class="tag-list">
+          <span class="tag gold">Télémesure IRIG 106</span>
+          <span class="tag gold">MIL-STD-1553</span>
+          <span class="tag">Traitement du signal</span>
+          <span class="tag">Hyperfréquences</span>
+          <span class="tag">RF / Antennes</span>
+          <span class="tag">Modulations FM/PM</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-cat">03 — Web &amp; Données</p>
+        <h3>Développement &amp; Outils</h3>
+        <div class="tag-list">
+          <span class="tag">Développement web</span>
+          <span class="tag">Bases de données</span>
+          <span class="tag">CMS</span>
+          <span class="tag">Photoshop</span>
+          <span class="tag">Réseaux Ethernet</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <p class="skill-cat">04 — Gestion &amp; Commerce</p>
+        <h3>Compétences transversales</h3>
+        <div class="tag-list">
+          <span class="tag gold">Gestion de projet</span>
+          <span class="tag gold">Rédaction technique</span>
+          <span class="tag">Analyse de risques</span>
+          <span class="tag">Négociation</span>
+          <span class="tag">Chiffrage &amp; Devis</span>
+          <span class="tag">Autonomie</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-inner">
+    <div class="exp-header reveal">
+      <div>
+        <p class="section-label">Expériences</p>
+        <h2 class="section-h">Parcours<br><em>professionnel</em></h2>
+      </div>
+      <p class="skills-intro">
+        Des environnements exigeants et variés — défense nationale, conseil commercial international, industrie, développement web et engagement humanitaire.
+      </p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-meta">
+          <div class="tl-period">Sept. 2023<br>Juil. 2026</div>
+          <span class="tl-badge alt">Alternance</span>
+        </div>
+        <div class="tl-content">
+          <h3>Ingénieur Essais de Missiles</h3>
+          <div class="tl-company">Direction Générale de l'Armement — DGA, Île-de-Long</div>
+          <ul class="tl-list">
+            <li>Analyse et présentation des données de télémesure collectées lors des essais en vol de missiles ; suivi en temps réel de centaines de paramètres simultanés</li>
+            <li>Développement et maintenance d'outils de traitement en langage C sur les systèmes informatiques propriétaires de la DGA</li>
+            <li>Appui aux ingénieurs concepteurs pour l'évaluation des performances réelles par rapport aux spécifications contractuelles</li>
+            <li>Maîtrise des normes aéronautiques et de défense : IRIG 106, MIL-STD-1553, CE83</li>
+            <li>Compétences approfondies en codage numérique, réseaux Ethernet industriels, traitement du signal, antennes paraboliques, modulations FM et PM</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Langage C</span>
+            <span class="tl-tag">Télémesure</span>
+            <span class="tl-tag">Traitement du signal</span>
+            <span class="tl-tag">Hyperfréquences</span>
+            <span class="tl-tag">IRIG 106</span>
+            <span class="tl-tag">MIL-STD-1553</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-meta">
+          <div class="tl-period">Avr. 2025<br>Août 2025</div>
+          <span class="tl-badge stage">Stage</span>
+        </div>
+        <div class="tl-content">
+          <h3>Ingénieur d'Affaires</h3>
+          <div class="tl-company">Evolution Contractors — Casablanca, Maroc</div>
+          <ul class="tl-list">
+            <li>Préparation d'offres techniques et commerciales complexes pour des projets d'infrastructure datacenter au Maroc</li>
+            <li>Réalisation de chiffrages détaillés, élaboration de devis et coordination avec les partenaires fournisseurs</li>
+            <li>Contribution à la stratégie marketing digital et gestion opérationnelle du site internet de l'entreprise</li>
+            <li>Présentation des solutions techniques directement auprès des clients et partenaires</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Commerce B2B</span>
+            <span class="tl-tag">Datacenter</span>
+            <span class="tl-tag">Marketing</span>
+            <span class="tl-tag">Chiffrage</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-meta">
+          <div class="tl-period">Déc. 2022<br>Mar. 2023</div>
+          <span class="tl-badge stage">Stage</span>
+        </div>
+        <div class="tl-content">
+          <h3>Technicien Maintenance Industrielle</h3>
+          <div class="tl-company">TK Elevator</div>
+          <ul class="tl-list">
+            <li>Exécution de visites de maintenance préventive et corrective sous supervision du Responsable Service Clients</li>
+            <li>Rédaction de constats techniques et rapports d'intervention détaillés</li>
+            <li>Garantie de la fiabilité opérationnelle des équipements dans le respect des procédures de sécurité</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Maintenance</span>
+            <span class="tl-tag">Rapport technique</span>
+            <span class="tl-tag">Industrie</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-meta">
+          <div class="tl-period">Juin 2022<br>Août 2022</div>
+          <span class="tl-badge stage">Stage</span>
+        </div>
+        <div class="tl-content">
+          <h3>Développeur Web Front-End</h3>
+          <div class="tl-company">Nero Dev</div>
+          <ul class="tl-list">
+            <li>Développement d'une interface utilisateur web dynamique responsive</li>
+            <li>Création d'une interface d'administration CMS et gestion du backend de base de données</li>
+            <li>Développement complet du front-end : structure, style et interactions</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Frontend</span>
+            <span class="tl-tag">Base de données</span>
+            <span class="tl-tag">CMS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-meta">
+          <div class="tl-period">Sept. 2021<br>Déc. 2023</div>
+          <span class="tl-badge vol">Bénévolat</span>
+        </div>
+        <div class="tl-content">
+          <h3>Équipier Maraude</h3>
+          <div class="tl-company">Croix-Rouge Française</div>
+          <ul class="tl-list">
+            <li>Rencontre, accueil et orientation de personnes en situation de grande précarité lors des maraudes nocturnes</li>
+            <li>Distribution de repas chauds, vêtements et produits d'hygiène ; référencement vers les structures d'hébergement adaptées</li>
+            <li>Participation active aux briefings, préparation du matériel et coordination avec l'équipe</li>
+          </ul>
+          <div class="tl-tags">
+            <span class="tl-tag">Action sociale</span>
+            <span class="tl-tag">Travail d'équipe</span>
+            <span class="tl-tag">Engagement citoyen</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FORMATION -->
+<section id="formation">
+  <div class="sec-inner">
+    <div class="form-header reveal">
+      <p class="section-label">Formation</p>
+      <h2 class="section-h">Un parcours<br><em>construit</em></h2>
+    </div>
+
+    <div class="form-grid stagger">
+      <div class="form-card main">
+        <div class="form-year">2023 – 2026 · En cours</div>
+        <h3>Diplôme d'Ingénieur</h3>
+        <div class="form-school">ISEN Yncréa Méditerranée — Marseille</div>
+        <p>
+          Spécialité Électronique &amp; Informatique Industrielle. En 5e année, j'ai choisi l'option Ingénieur d'Affaires — un choix réfléchi pour acquérir la double culture technique et commerciale indispensable dans les grandes entreprises de défense et de haute technologie. La formation couvre les systèmes embarqués, le traitement du signal, la programmation et le management de projets complexes.
+        </p>
+        <span class="form-pill">Bac+5 · Grande École d'Ingénieurs</span>
+      </div>
+      <div class="form-card prepa">
+        <div class="form-year">2019 – 2022</div>
+        <h3>CPGE TSI</h3>
+        <div class="form-school">Institut Emmanuel d'Alzon — Nîmes</div>
+        <p>
+          Classe préparatoire Technologie et Sciences Industrielles, puis Mathématiques Spéciales. Trois années d'entraînement intensif à la rigueur, à l'analyse de systèmes complexes et à la gestion du stress. C'est là que j'ai vraiment appris à apprendre.
+        </p>
+        <span class="form-pill">Prépa · Sciences industrielles</span>
+      </div>
+      <div class="form-card bac">
+        <div class="form-year">2018 – 2019</div>
+        <h3>Baccalauréat STI2D</h3>
+        <div class="form-school">Lycée Dhuoda — Nîmes</div>
+        <p>
+          Option Système d'Information et Numérique. Première immersion sérieuse dans l'électronique, l'informatique appliquée et les systèmes numériques. Le point de départ d'une trajectoire cohérente vers l'ingénierie.
+        </p>
+        <span class="form-pill">Bac · Technologique</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJET -->
+<section id="projet">
+  <div class="sec-inner">
+    <div class="projet-header reveal">
+      <div>
+        <p class="section-label">Projet professionnel</p>
+        <h2 class="section-h">Où je<br><em>veux aller</em></h2>
+      </div>
+      <p class="skills-intro">
+        Diplômé en juillet 2026, je cherche un premier poste dans un environnement où rigueur technique et vision stratégique se rejoignent réellement — pas l'un ou l'autre.
+      </p>
+    </div>
+
+    <div class="projet-grid stagger">
+      <div class="obj-card">
+        <div class="obj-num">01</div>
+        <h4>Diplôme d'ingénieur en 2026</h4>
+        <p>
+          Finaliser ma formation à l'ISEN avec la double spécialisation technique et Ingénieur d'Affaires. Un diplôme, deux façons de voir un projet.
+        </p>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">02</div>
+        <h4>Systèmes embarqués critiques</h4>
+        <p>
+          Approfondir mon expertise dans la défense, l'aéronautique ou la mobilité autonome — des secteurs où les exigences de fiabilité ne laissent pas de place à la médiocrité.
+        </p>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">03</div>
+        <h4>Dimension internationale</h4>
+        <p>
+          Travailler dans un environnement multiculturel et tirer parti de mes compétences linguistiques. Le monde ne se limite pas aux frontières du projet.
+        </p>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">04</div>
+        <h4>Impact concret, responsabilité réelle</h4>
+        <p>
+          Contribuer à des projets où l'ingénierie fait une différence mesurable. La rigueur technique n'a de sens que lorsqu'elle débouche sur quelque chose de tangible.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-inner">
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="section-label">Contact</p>
+        <h2 class="section-h">Travaillons<br><em>ensemble</em></h2>
+        <p class="contact-intro">
+          Vous avez un projet, une opportunité ou simplement envie d'échanger sur les systèmes embarqués, la défense ou l'ingénierie ? Je réponds à tous les messages, et je prends le temps de le faire correctement.
+        </p>
+
+        <div class="contact-links">
+          <a href="mailto:mohamed.shimi30@gmail.com" class="c-link">
+            <div class="c-icon-wrap">
+              <svg class="c-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="c-text">
+              <span class="c-label-sm">Email</span>
+              <span class="c-value-text">mohamed.shimi30@gmail.com</span>
+            </div>
+            <span class="c-arrow">→</span>
+          </a>
+          <a href="https://linkedin.com/in/mohammed-s-himi" target="_blank" class="c-link">
+            <div class="c-icon-wrap">
+              <svg class="c-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <div class="c-text">
+              <span class="c-label-sm">LinkedIn</span>
+              <span class="c-value-text">Mohammed S'himi</span>
+            </div>
+            <span class="c-arrow">→</span>
+          </a>
+          <a href="https://github.com/MohammedShimi" target="_blank" class="c-link">
+            <div class="c-icon-wrap">
+              <svg class="c-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            </div>
+            <div class="c-text">
+              <span class="c-label-sm">GitHub</span>
+              <span class="c-value-text">MohammedShimi</span>
+            </div>
+            <span class="c-arrow">→</span>
+          </a>
+          <a href="tel:+33760136105" class="c-link">
+            <div class="c-icon-wrap">
+              <svg class="c-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.93a16 16 0 0 0 6.06 6.06l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="c-text">
+              <span class="c-label-sm">Téléphone</span>
+              <span class="c-value-text">07 60 13 61 05</span>
+            </div>
+            <span class="c-arrow">→</span>
+          </a>
+          <div class="c-link" style="cursor: default;">
+            <div class="c-icon-wrap">
+              <svg class="c-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="c-text">
+              <span class="c-label-sm">Localisation</span>
+              <span class="c-value-text">Marseille, France</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-right reveal" style="transition-delay: .15s;">
+        <div class="contact-big">Dispo<br>juillet<br>2026</div>
+        <div class="contact-note">
+          <strong>Ce que je cherche :</strong> un premier poste d'ingénieur dans les systèmes embarqués critiques, la défense, l'aéronautique ou la mobilité autonome — de préférence dans un environnement international. Je suis ouvert aux offres en CDI comme aux VIE.
+        </div>
+        <div class="contact-dispo">
+          <span class="dispo-dot"></span>
+          Disponible pour opportunités à partir de juillet 2026
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="nav-flag" style="opacity:0.4;">
+      <span class="f-b"></span>
+      <span class="f-w"></span>
+      <span class="f-r"></span>
+    </div>
+    <span class="footer-name">Mohammed Shimi — Ingénieur ISEN</span>
+  </div>
+  <p>&copy; 2026 &middot; Marseille, France</p>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let rx = 0, ry = 0, mx = 0, my = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+});
+
+function lerpRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(lerpRing);
+}
+lerpRing();
+
+document.querySelectorAll('a, button, .c-link, .q-item, .skill-card, .obj-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '14px'; cursor.style.height = '14px';
+    ring.style.width = '52px'; ring.style.height = '52px';
+    ring.style.borderColor = 'rgba(200,169,110,0.7)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '8px'; cursor.style.height = '8px';
+    ring.style.width = '36px'; ring.style.height = '36px';
+    ring.style.borderColor = 'rgba(200,169,110,0.4)';
+  });
+});
+
+/* ── INTERSECTION OBSERVER ── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal, .stagger, .tl-item').forEach(el => io.observe(el));
+
+/* ── LANGUAGE BARS ── */
+const barObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.bar').forEach(bar => {
+        bar.style.width = bar.dataset.width;
+        bar.classList.add('animated');
+      });
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.lang-block').forEach(el => barObserver.observe(el));
+</script>
+
+</body>
+</html>
